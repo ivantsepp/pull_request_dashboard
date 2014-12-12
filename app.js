@@ -163,7 +163,7 @@ var PullRequestDashboard = React.createClass({
   addPullRequest: function(){
     var matchData = this.refs.input.getDOMNode().value.match(/([^\/]*)\/([^#]*)#(.*)/);
     if (matchData === null){
-      matchData = this.refs.input.getDOMNode().value.match(/.*github.com\/([^\/]*)\/([^\/]*)\/pull\/(.*)/);
+      matchData = this.refs.input.getDOMNode().value.match(/.*github.com\/([^\/]*)\/([^\/]*)\/pull\/([0-9]*)/);
     }
     var pullRequest = {owner: matchData[1], repo: matchData[2], id: matchData[3]};
     this.props.pullRequests.push(pullRequest);
