@@ -1,0 +1,121 @@
+#container {
+  margin: 0px auto;
+  width: 700px;
+  border: 1px solid #dddddd;
+  padding: 10px 50px;
+  border-radius: 4px;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+h1 {
+  margin-bottom: 50px;
+}
+h3{
+  font-size: 18px;
+  font-weight: bold;
+  color: rgb(85, 85, 85);
+}
+li {
+  padding: 5px 10px 20px 10px;
+}
+li:hover{
+
+  background-color: rgb(247, 247, 247);
+}
+li:hover .remove{
+  visibility: visible;
+}
+.status {
+  margin-top: 20px;
+  float: right;
+}
+.avatar {
+  float: left;
+  margin-right: 20px;
+  margin-top: 7px;
+}
+.description {
+  width: 440px;
+}
+.mergeable {
+  background-color: #6cc644;
+  float: left;
+  width: 48px;
+  height: 48px;
+  line-height: 48px;
+  color: #fff;
+  text-align: center;
+  border-radius: 3px;
+}
+.mega-octicon {
+  margin-top: 7px;
+}
+.unmergeable {
+  background-color: #888;
+  float: left;
+  width: 48px;
+  height: 48px;
+  line-height: 48px;
+  color: #fff;
+  text-align: center;
+  border-radius: 3px;
+}
+.merged {
+  background-color: #6e5494;
+  float: left;
+  width: 48px;
+  height: 48px;
+  line-height: 48px;
+  color: #fff;
+  text-align: center;
+  border-radius: 3px;
+}
+.clear {
+  clear: both;
+}
+.branch {
+  color: #598a9f;
+}
+.title {
+  font-size: 18px;
+  font-weight: bold;
+}
+.branch-container {
+  position: relative;
+display: inline-block;
+padding: 0 5px;
+border-radius: 3px;
+font: 0.75em/2 Consolas, "Liberation Mono", Menlo, Courier, monospace;
+color: #336479;
+white-space: nowrap;
+background-color: #e8f0f8;
+}
+.build-status{
+  overflow: hidden;
+  color: #999;
+}
+.build-status a:link, .build-status a:hover, .build-status a:visited {
+  color: #999;
+}
+.login{
+  width: 300px;
+  margin: 0 auto;
+}
+.text-center{
+  text-align: center;
+}
+.enter-pr {
+  margin: 0 auto;
+  width: 700px;
+}
+.button-container {
+  margin: 20px 0px;
+}
+.remove {
+  float: right;
+  cursor: pointer;
+  visibility: hidden;
+}
