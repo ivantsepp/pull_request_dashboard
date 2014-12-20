@@ -15,7 +15,35 @@ $.fn.serializeObject = function()
     return o;
 };
 
-var pullRequests = JSON.parse(localStorage.getItem('pullRequestDashboard')) || [];
+function randomNumber(){
+  return Math.floor((Math.random() * 1000000) + 1);
+}
+// https://gist.github.com/ryoppy/5780748
+function getQueryParams(queryString) {
+  var query = (queryString || window.location.search).substring(1); // delete ?
+  if (!query) {
+    return false;
+  }
+  return _
+  .chain(query.split('&'))
+  .map(function(params) {
+    var p = params.split('=');
+    return [p[0], decodeURIComponent(p[1])];
+  })
+  .object()
+  .value();
+}
+
+var data = JSON.parse(localStorage.getItem('pullRequestDashboard')) || {};
+if(!data.pullRequests){
+  data.pullRequests = [];
+  localStorage.setItem('pullRequestDashboard', JSON.stringify(data));
+}
+var pullRequests = data.pullRequests;
+if (!data.randomState){
+  data.randomState = randomNumber();
+  localStorage.setItem('pullRequestDashboard', JSON.stringify(data));
+}
 
 var PullRequest = React.createClass({
   getInitialState: function() {
@@ -30,7 +58,7 @@ var PullRequest = React.createClass({
     };
   },
   componentWillMount: function(){
-    var url = 'https://api.github.com/repos/'+this.props.owner+'/'+this.props.repo+'/pulls/'+this.props.id;
+    var url = 'https://api.github.com/repos/'+this.props.owner+'/'+this.props.repo+'/pulls/'+this.props.id + '?access_token=' + this.props.token;
     $.get(url, this.success);
   },
   success: function(data){
@@ -45,6 +73,7 @@ var PullRequest = React.createClass({
     var self = this;
     var statusUrl = data.statuses_url;
     statusUrl = statusUrl.replace('statuses', 'status');
+    statusUrl += '?access_token=' + this.props.token;
     $.get(statusUrl, function(data){
       var statuses = [];
       data.statuses.forEach(function(s){
@@ -114,9 +143,12 @@ var PullRequest = React.createClass({
 
 var LogInForm = React.createClass({
   handleSubmit: function(e){
-    var credentials = $(e.target).serializeObject();
-    this.props.login(credentials);
-    e.preventDefault();
+    // var credentials = $(e.target).serializeObject();
+    // this.props.login(credentials);
+    // e.preventDefault();
+    // https://github.com/login/oauth/authorize?client_id=bcf17976f7287a31fcf9&scope=repo&state=132
+    window.location.href = 'https://github.com/login/oauth/authorize?redirect_uri=http://localhost:9090/&client_id=bcf17976f7287a31fcf9&scope=repo&state=' + data.randomState;
+    return false;
   },
   render: function(){
     return (
@@ -167,7 +199,9 @@ var PullRequestDashboard = React.createClass({
     }
     var pullRequest = {owner: matchData[1], repo: matchData[2], id: matchData[3]};
     this.props.pullRequests.push(pullRequest);
-    localStorage.setItem('pullRequestDashboard', JSON.stringify(this.props.pullRequests));
+    var data = JSON.parse(localStorage.getItem('pullRequestDashboard'));
+    data.pullRequests = this.props.pullRequests;
+    localStorage.setItem('pullRequestDashboard', JSON.stringify(data));
     this.setProps({pullRequest: this.props.pullRequest});
     this.refs.input.getDOMNode().value = '';
   },
@@ -189,7 +223,9 @@ var PullRequestDashboard = React.createClass({
     var list = _.reject(this.props.pullRequests, function(p){
       return p.id === id;
     });
-    localStorage.setItem('pullRequestDashboard', JSON.stringify(list));
+    var data = JSON.parse(localStorage.getItem('pullRequestDashboard'));
+    data.pullRequests = lists;
+    localStorage.setItem('pullRequestDashboard', JSON.stringify(data));
     this.setProps({pullRequests: list});
   },
   render: function(){
@@ -205,7 +241,7 @@ var PullRequestDashboard = React.createClass({
     }
     this.props.pullRequests.forEach(function(p){
       pullRequestNodes.push(
-        <PullRequest key={p.id} id={p.id} repo={p.repo} owner={p.owner} removePullRequest={self.removePullRequest} />
+        <PullRequest key={p.id} id={p.id} repo={p.repo} owner={p.owner} removePullRequest={self.removePullRequest} token={self.props.token} />
       );
     });
     return (
@@ -223,7 +259,22 @@ var PullRequestDashboard = React.createClass({
   }
 });
 
-React.renderComponent(
-  <PullRequestDashboard pullRequests={pullRequests} />,
+var pullRequestDashboard = React.renderComponent(
+  <PullRequestDashboard pullRequests={pullRequests} token={data.token} loggedIn={!!data.token} />,
   document.body
 );
+if (!data.token){
+  var params = getQueryParams();
+  if (params) {
+    if (parseInt(params.state, 10) === data.randomState){
+      $.getJSON('https://morning-earth-4943.herokuapp.com/authenticate/'+params.code, function(response) {
+        console.log(response.token);
+        data.token = response.token;
+        localStorage.setItem('pullRequestDashboard', JSON.stringify(data));
+        pullRequestDashboard.setProps({token: data.token});
+        pullRequestDashboard.setState({loggedIn: true});
+      });
+    }
+  }
+}
+window.React = React;
