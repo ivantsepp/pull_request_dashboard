@@ -1,0 +1,32 @@
+{
+  "name": "Pull Request Dashboard",
+  "version": "0.0.0",
+  "authors": [
+    "Ivan Tse <ivan.tse1@gmail.com>"
+  ],
+  "description": "A dashboard of pull requests",
+  "main": "index.html",
+  "moduleType": [
+    "node"
+  ],
+  "keywords": [
+    "github",
+    "pull",
+    "requests"
+  ],
+  "license": "MIT",
+  "homepage": "http://tseivan.com/pull_request_dashboard",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~2.1.3",
+    "underscore": "~1.7.0",
+    "octicons": "~2.1.2"
+  }
+}

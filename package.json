@@ -1,0 +1,24 @@
+{
+  "name": "pull_request_dashboard",
+  "version": "0.0.0",
+  "description": "A dashboard of pull requests",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "github",
+    "pull",
+    "requests"
+  ],
+  "author": "Ivan Tse <ivan.tse1@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "grunt": "^0.4.5",
+    "grunt-browserify": "^3.2.1",
+    "grunt-contrib-concat": "^0.5.0",
+    "grunt-contrib-copy": "^0.7.0",
+    "react": "^0.12.2",
+    "reactify": "^0.17.1"
+  }
+}
