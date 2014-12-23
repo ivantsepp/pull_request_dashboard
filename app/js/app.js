@@ -262,7 +262,7 @@ var PullRequestDashboard = React.createClass({
 });
 
 var pullRequestDashboard = React.render(
-  <PullRequestDashboard pullRequests={pullRequests} token={data.token} loggedIn={false} />,
+  <PullRequestDashboard pullRequests={pullRequests} token={data.token} loggedIn={!!data.token} />,
   document.body
 );
 if (!data.token){
