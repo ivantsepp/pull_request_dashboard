@@ -13,7 +13,7 @@ task :publish do
     system "mv build/* #{tmp}"
     system "mv .sass-cache/ #{tmp}/"
     system "mv node_modules/ #{tmp}/"
-    system "mv .gitignore #{tmp}"
+    system "cp .gitignore #{tmp}"
     system "git checkout gh-pages"
     break unless $?.success?
     system "rm -rf *"
