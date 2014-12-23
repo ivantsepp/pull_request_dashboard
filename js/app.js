@@ -151,7 +151,7 @@ var LogInForm = React.createClass({displayName: "LogInForm",
     // this.props.login(credentials);
     // e.preventDefault();
     // https://github.com/login/oauth/authorize?client_id=bcf17976f7287a31fcf9&scope=repo&state=132
-    window.location.href = 'https://github.com/login/oauth/authorize?redirect_uri=http://tseivan.com/pull_request_dashboard/&client_id=bcf17976f7287a31fcf9&scope=repo&state=' + data.randomState;
+    window.location.href = 'https://github.com/login/oauth/authorize?redirect_uri=http://www.tseivan.com/pull_request_dashboard/&client_id=bcf17976f7287a31fcf9&scope=repo&state=' + data.randomState;
     return false;
   },
   render: function(){
