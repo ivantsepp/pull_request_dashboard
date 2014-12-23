@@ -51,7 +51,7 @@ if (!data.randomState){
 }
 
 var pullRequestDashboard = React.render(
-  React.createElement(PullRequestDashboard, {pullRequests: pullRequests, token: data.token, loggedIn: !!data.token}),
+  React.createElement(PullRequestDashboard, {pullRequests: pullRequests, token: data.token, loggedIn: !!data.token, data: data}),
   document.body
 );
 if (!data.token){
@@ -79,7 +79,7 @@ var LoginForm = React.createClass({displayName: "LoginForm",
     // this.props.login(credentials);
     // e.preventDefault();
     // https://github.com/login/oauth/authorize?client_id=bcf17976f7287a31fcf9&scope=repo&state=132
-    window.location.href = 'https://github.com/login/oauth/authorize?redirect_uri=http://www.tseivan.com/pull_request_dashboard/&client_id=bcf17976f7287a31fcf9&scope=repo&state=' + data.randomState;
+    window.location.href = 'https://github.com/login/oauth/authorize?redirect_uri=http://www.tseivan.com/pull_request_dashboard/&client_id=bcf17976f7287a31fcf9&scope=repo&state=' + this.props.randomState;
     return false;
   },
   render: function(){
@@ -88,18 +88,7 @@ var LoginForm = React.createClass({displayName: "LoginForm",
       React.createElement("h1", {className: "text-center"}, "Pull Request Dashboard"), 
       React.createElement("div", {id: "container"}, 
         React.createElement("h2", {className: "text-center"}, "Log in with Github credentials"), 
-        React.createElement("form", {className: "login", role: "form", onSubmit: this.handleSubmit}, 
-          React.createElement("div", {className: "form-group"}, 
-            React.createElement("label", {htmlFor: "username"}, "Username"), 
-            React.createElement("input", {name: "username", type: "text", className: "form-control", id: "username", placeholder: "Enter Username"})
-          ), 
-          React.createElement("div", {className: "form-group"}, 
-            React.createElement("label", {htmlFor: "password"}, "Password"), 
-            React.createElement("input", {name: "password", type: "password", className: "form-control", id: "password", placeholder: "Password"})
-          ), 
-
-          React.createElement("button", {type: "submit", className: "btn btn-default"}, "Submit")
-        )
+        React.createElement("button", {onClick: this.handleSubmit}, "Log in")
       )
     )
     );
@@ -270,7 +259,7 @@ var PullRequestDashboard = React.createClass({displayName: "PullRequestDashboard
   },
   render: function(){
     if (!this.state.loggedIn) {
-      return (React.createElement(LoginForm, {login: this.login}));
+      return (React.createElement(LoginForm, {login: this.login, randomState: this.props.data.randomState}));
     }
     var pullRequestNodes = [];
     var self = this;
