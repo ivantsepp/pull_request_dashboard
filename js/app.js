@@ -50,6 +50,8 @@ if (!data.randomState){
   localStorage.setItem('pullRequestDashboard', JSON.stringify(data));
 }
 
+setUserData(data);
+
 var pullRequestDashboard = React.render(
   React.createElement(PullRequestDashboard, {data: data}),
   document.body
@@ -68,7 +70,6 @@ if (!data.token){
     }
   }
 }
-setUserData(data);
 
 function setUserData(data){
   if (data.user){
